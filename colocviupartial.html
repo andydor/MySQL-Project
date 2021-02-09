@@ -1,0 +1,283 @@
+<html>
+    <head>
+        <title>Script MySQL</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+.button {
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 20px;
+  cursor: pointer;
+  text-align: center;	
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #f44336;
+  border: none;
+  border-radius: 1px;
+  box-shadow: 0 9px #999;
+}
+
+.button:hover {background-color: #f44336}
+
+.button:active {
+  background-color: #f44336;
+  box-shadow: 0 1px #666;
+  transform: translateY(4px);
+}
+div {
+    width: 1200px;
+    padding: 15px;
+    border: 1px groove;
+    margin: 1px;
+    text-align: center;
+}
+body {
+    background-color: whitesmoke;
+}
+table {
+    text-align:center;
+    margin: auto;
+    border: solid 3px;
+    border-color: black;
+}
+th {
+    background-color: #f44336;
+    color: black;
+    border: 3px;
+}
+td{
+    border: solid 1px;
+    border-color: black;
+    width: 200px;
+}
+</style> 
+    </head>
+    <body>
+        <div>
+            <p style="font-size: 30px; text-align: center">Codul SQL folosit</p> 
+            <p style="text-align: center"> 
+--------Subiectul 2------ 
+<br> Codul SQL pentru colocviul partial de laborator
+<br> Creare tabele:
+<br>
+<br>
+
+<br>-- 01.a) --
+<br>create table Persoana
+(id_p number(10) not null,
+nume varchar2(50),
+email varchar2(50),
+adresa varchar2(50));
+<br>
+<br>-- b) --
+<br>create table Contract_j
+(id_cj number(10) not null,
+data date not null,
+obiect varchar2(50) not null,
+onorariu number(10) not null,
+nr_pagini number(10) not null,
+id_client number(10) not null,
+id_avocat number(10) not null);
+<br>
+<br>-- c) --
+<br>create table Contract_m
+(id_cm number(10) not null,
+data date not null,
+functie varchar2(50) not null,
+salariu_baza number(10) not null,
+comision number(10) not null,
+id_angajat number(10) not null);
+<br>
+<br>-- d) --
+<br>create table Rata
+(id_cj number(10) not null,
+id_r number(10) not null,
+data date not null,
+suma number(10) not null);
+<br>
+<br>-- e) --
+<br>alter table Persoana
+add primary key (id_p);
+<br>
+<br>alter table Contract_j
+add primary key (id_cj);
+<br>
+<br>alter table Contract_m
+add primary key (id_cm);
+<br>
+<br>alter table Rata
+add primary key (id_r);
+<br>
+<br>alter table Contract_j
+add foreign key (id_client) references Persoana (id_p);
+<br>
+<br>alter table Contract_j
+add foreign key (id_avocat) references Persoana (id_p);
+<br>
+<br>alter table Contract_m
+add foreign key (id_angajat) references Persoana (id_p);
+
+<br>alter table Rata
+add foreign key (id_cj) references Contract_j (id_cj);
+<br>
+<br>-- f) --
+<br>alter table Contract_j
+add tva number(10);
+<br>
+<br>-- 02.a) --
+<br>alter table Contract_j
+add constraint chkonorariu check (onorariu between 100 and 20000);
+<br>
+<br>-- b) --
+<br>alter table Contract_m
+add constraint chkavocat check (not(functie <> 'avocat' and comision is null));
+<br>
+<br>
+<br>-- populare cu date --
+<br>insert into Persoana values (6, 'Aurel Voicu', 'email@email.com', 'strada fericirii');
+<br>insert into Persoana values (1, 'Ionescu George', 'email@email.com', 'strada arinilor');
+<br>insert into Persoana values (2, 'Iacob Liviu', 'email@email.com', 'strada scoartei');
+<br>insert into Persoana values (3, 'Ionut Moldovan', 'email@email.com', 'strada cazanului');
+<br>insert into Persoana values (4, 'Gigel avocat', 'email@email.com', 'strada cotetului');
+<br>insert into Persoana values (5, 'Mirel avocat', 'email@email.com', 'strada gropii');
+<br>insert into Persoana values (7, 'Merishorul Thau', 'email@email.com', 'strada mea');
+<br>insert into Persoana values (13, 'Andrei Vasile', 'email@email.com', 'strada fabricii');
+<br>insert into Persoana values (19, 'Florin de vinde carti in piata', 'email@email.com', 'strada observatorului');
+<br>insert into Persoana values (20, 'Leana lu Vasile', 'email@email.com', 'strada energiei');
+<br>
+<br>insert into Contract_j values (20, to_date('12-10-2019', 'DD-MM-YYYY'), 'nu stiu', 2000, 10, 2, 1, 0);
+<br>insert into Contract_j values (21, to_date('05-06-2019', 'DD-MM-YYYY'), 'nu stiu x2', 2600, 7, 3, 1, 0);
+<br>insert into Contract_j values (5, to_date('14-03-2019', 'DD-MM-YYYY'), 'ce o fi facut', 3200, 23, 6, 4, 0);
+<br>insert into Contract_j values (15, to_date('15-12-2019', 'DD-MM-YYYY'), 'ce o fi facut si el', 1600, 17, 7, 5, 0);
+<br>insert into Contract_j values (120, to_date('20-09-2019', 'DD-MM-YYYY'), 'nu stiu x3', 200, 10, 2, 1, 0);
+<br>insert into Contract_j values (22, to_date('24-05-2019', 'DD-MM-YYYY'), 'nu am idee', 2900, 28, 19, 4, 0);
+<br>insert into Contract_j values (28, to_date('12-10-2019', 'DD-MM-YYYY'), 'depinde', 15000, 35, 20, 4, 0);
+<br>
+<br>insert into Contract_m values (3, to_date('03-01-2012', 'DD-MM-YYYY'), 'avocat', 5300, 5, 5, null);
+<br>insert into Contract_m values (80, to_date('01-09-2019', 'DD-MM-YYYY'), 'avocat', 10000, 13, 13, 0545-123456);
+<br>insert into Contract_m values (1, to_date('12-10-2012', 'DD-MM-YYYY'), 'avocat', 5304, 10, 1, null);
+<br>insert into Contract_m values (2, to_date('03-08-2013', 'DD-MM-YYYY'), 'avocat', 4896, 12, 4, null);
+<br>insert into Contract_m values (4, to_date('24-06-2014', 'DD-MM-YYYY'), 'angajat', 3680, 7, 19, null);
+<br>insert into Contract_m values (5, to_date('14-02-2015', 'DD-MM-YYYY'), 'avocat', 5300, 9, 20, null);
+<br>insert into Contract_m values (6, to_date('03-05-2016', 'DD-MM-YYYY'), 'avocat', 5300, 4, 6, null);
+<br>
+<br>insert into Rata values (20, 1, to_date('15-10-2019', 'DD-MM-YYYY'), 100);
+<br>insert into Rata values (20, 2, to_date('15-11-2019', 'DD-MM-YYYY'), 100);
+<br>insert into Rata values (20, 3, to_date('15-12-2019', 'DD-MM-YYYY'), 100);
+<br>insert into Rata values (21, 4, to_date('07-06-2019', 'DD-MM-YYYY'), 100);
+<br>insert into Rata values (21, 5, to_date('07-07-2019', 'DD-MM-YYYY'), 100);
+<br>insert into Rata values (21, 6, to_date('07-08-2019', 'DD-MM-YYYY'), 100);
+<br>insert into Rata values (5, 7, to_date('14-04-2019', 'DD-MM-YYYY'), 100);
+------------------------------------------------------
+<br>
+<br>
+<br>-- 03.a) --
+<br>select *
+from Contract_j
+where nr_pagini between 10 and 20 and to_char(data, 'YYYY') = '2019';
+<br>
+<br>-- b) --
+<br>select *
+from Contract_m
+where comision = 40
+order by salariu_baza desc;
+<br>
+<br>-- 04.a) --
+<br>select p.nume
+from Persoana p inner join Contract_j c
+on c.id_avocat = (select id_p from Persoana where nume = 'Ionescu George') and p.id_p = c.id_client;
+<br>
+<br>-- b) --
+<br>SELECT *
+FROM rata
+WHERE id_cj IN
+    (     SELECT id_cj
+          FROM rata
+          GROUP BY id_cj
+          HAVING COUNT(*) >= 1
+    )
+ORDER BY id_cj
+<br>
+<br>-- 05.a) --
+<br>select *
+from Contract_j
+where onorariu >= any (select onorariu from Contract_j where id_cj = 123);
+<br>
+<br>-- b) --
+<br>select *
+from Persoana where id_p in (select id_avocat from Contract_j a where not exists (select 1 from Contract_j b where a.id_avocat = b.id_avocat having count(*) > 1));
+<br>
+<br>-- 06.a) --
+<br>select p.nume, avg(c.salariu_baza * 12 + (c.comision * c1.onorariu))
+from (Persoana p join Contract_m c on p.id_p = c.id_angajat) join Contract_j c1 on p.id_p = c1.id_avocat
+where (c.functie = 'avocat')
+group by p.nume;
+<br>
+<br>-- b) --
+<br>select Contract_j.id_cj
+from Contract_j join Rata on Contract_j.id_cj = Rata.id_cj
+where Contract_j.onorariu <> (select suma * count(distinct id_cj) from Rata where id_cj = Contract_j.id_cj)
+group by Contract_j.id_cj; 
+<br>
+<br>-- 07.a) --
+<br>alter table Contract_m
+add (telefon varchar2(50));
+<br>
+<br>insert into Persoana values (13, 'Andrei Vasile', 'email@email.com', 'strada fabricii');
+<br>
+<br>insert into Contract_m values (80, to_date('01-SEP-2019', 'DD-MON-YYYY'), 'avocat', 10000, 12.5, 13, '0545-123456');
+<br>
+<br>-- b) --
+<br>delete from Contract_j where not exists (select id_cj from rata where id_cj = Contract_j.id_cj) and (Contract_j.data < to_date('01-09-2019', 'DD-MM-YYYY'));
+<br>
+<br>-- c) --
+<br>update Contract_m
+set salariu_baza = salariu_baza * 1.02
+where extract(year from sysdate) - extract(year from data) >= 5;
+<br>
+<br>-- 08.a) --
+<br>create or replace trigger modif_salariu
+before update of salariu_baza on Contract_m
+for each row
+begin
+if (:new.salariu_baza <= :old.salariu_baza) then
+RAISE_APPLICATION_ERROR(-20001, 'Noul salariu trebuie sa fie mai mare decat cel precedent');
+end if;
+end;
+<br>
+<br>-- b) --
+create or replace trigger adaug_rata
+before insert on Rata
+for each row
+declare
+data_cj date;
+begin
+data_cj := (select data from Contract_j where id_cj = Rata.id_cj);
+if (data_cj > data)
+RAISE_APPLICATION_ERROR(-20002, 'Data ratei trebuie sa fie mai recenta decat data contractului');
+end if;
+end;
+<br>
+<br>-- c) --
+<br>create view Clienti_Vasile_Andrei as
+select b.nume nume_client, b.email, b.adresa, id_cj, data, obiect, onorariu, nr_pagini
+from Persoana a, Contract_j c, Persoana b
+where a.nume = 'Andrei Vasile' and c.id_avocat = a.id_p and b.id_p = c.id_client;
+<br>
+<br>create or replace trigger clienti_insert
+instead of insert on Clienti_Vasile_Andrei
+for each row
+begin
+insert into Persoana(id_p, nume, email, adresa) values ('&id_p', :new.nume_client, :new.email, :new.adresa);
+insert into Contract_j(id_cj, data, obiect, onorariu, nr_pagini) values (:new.id_cj, :new.data, :new.obiect, :new.onorariu, :new.nr_pagini);
+end;
+<br>
+<br>insert into Clienti_Vasile_Andrei (nume_client, email, adresa, id_cj, data, obiect, onorariu, nr_pagini)
+values ('Tudorel Popa', 'email@email.com', 'strada ferdinand', 10, to_date('05-10-2019', 'DD-MM-YYYY'), 'a spariet copiii le-a dat in spaima', 3400, 23);
+            </p>
+            <a href="index.html" class="button">Inapoi</a>
+        </div>
+    </body>
+</html>
